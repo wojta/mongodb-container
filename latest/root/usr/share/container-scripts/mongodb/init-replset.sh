@@ -44,7 +44,7 @@ function add_member() {
   local host="$1"
   info "Adding ${host} to replica set ..."
 
-  if ! mongo_cmd "$(replset_addr admin)" -u admin -p"${MONGODB_ADMIN_PASSWORD}" --quiet <<<"while (!rs.add('${host}').ok) { sleep(100); }"; then
+  if ! mongo_cmd "$(replset_addr admin)" -u admin -p"${MONGODB_ADMIN_PASSWORD}" --authenticationDatabase admin --quiet <<<"while (!rs.add('${host}').ok) { sleep(100); }"; then
     info "ERROR: couldn't add host to replica set!"
     return 1
   fi
